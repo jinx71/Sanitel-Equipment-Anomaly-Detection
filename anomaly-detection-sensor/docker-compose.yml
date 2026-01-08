@@ -1,0 +1,18 @@
+# One-command local stack: `docker compose up --build`
+# Frontend served at http://localhost:8080 (nginx proxies /api to the backend,
+# so no CORS configuration is needed). API also exposed at http://localhost:8000.
+services:
+  backend:
+    build: ./backend
+    environment:
+      - CLIENT_URL=http://localhost:8080
+      - PORT=8000
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
